@@ -1,0 +1,51 @@
+.header {
+  height    : 80px;
+  background: #fff;
+
+  .header_top {
+    height       : 40px;
+    border-bottom: 1px solid #06f;
+    text-align   : right;
+    padding-right: 20px;
+    line-height  : 40px;
+
+    span {
+      margin-right: 20px;
+    }
+  }
+
+  .header_bottom {
+    display    : flex;
+    align-items: center;
+    text-align : center;
+    line-height: 40px;
+
+    .bottom_left {
+      width    : 25%;
+      font-size: 20px;
+      position : relative;
+
+      &::after {
+        content      : "";
+        position     : absolute;
+        top          : 80%;
+        left         : 50%;
+        transform    : translateX(-50%);
+        border-top   : 20px solid #fff;
+        border-bottom: 20px solid transparent;
+        border-right : 20px solid transparent;
+        border-left  : 20px solid transparent;
+      }
+    }
+
+    .bottom_right {
+      width        : 75%;
+      text-align   : right;
+      padding-right: 20px;
+
+      img {
+        margin: 0 20px;
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+.left_nav {
+  color: #fff;
+}
+.left_nav img {
+  width: 50px;
+}
+.left_nav h1 {
+  display: inline-block;
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+  margin-left: 20px;
+  margin-bottom: 0;
+}

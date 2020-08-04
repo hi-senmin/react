@@ -1,0 +1,8 @@
+.home {
+  font-size: 30px;
+  height: 100%;
+  color: coral;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
