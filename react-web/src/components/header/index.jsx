@@ -5,7 +5,7 @@ import { reqWeather } from '../../api/index'
 import memoryUtil from "../../utils/memoryUtil";
 import storege from "../../utils/storege";
 import menuList from '../../config/menuConfig'
-import './index.css'
+import './index.less'
 import LinkButton from '../link-button'
 import { Modal } from 'antd';
 
@@ -27,7 +27,6 @@ class Header extends Component {
   }
   getWeather = async () => {
     let res = await reqWeather('广州')
-    console.log(res)
     let { dayPictureUrl, weather } = res[0].weather_data[0]
     this.setState({ dayPictureUrl, weather })
   }
@@ -86,7 +85,7 @@ class Header extends Component {
           </div>
           <div className="bottom_right">
             <span>{this.state.currentTime}</span>
-            <img src={this.state.dayPictureUrl}  width='30px' />
+            <img src={this.state.dayPictureUrl} width='30px' alt="" />
             <span>{this.state.weather}</span>
           </div>
         </div>

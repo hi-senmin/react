@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Form, Input, Button, Upload, Cascader, Icon, message } from 'antd'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+
 import LinkButton from '../../components/link-button'
 import { reqCategroty, reqAddProducts } from '../../api/index'
 
@@ -8,9 +10,29 @@ const Item = Form.Item
 
 const options = [];
 
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
+
 class AddUpdate extends Component {
   state = {
     options,
+    imageUrl: [],
+    uploadLoading: false
   };
 
   handleSubmit = e => {
@@ -26,7 +48,6 @@ class AddUpdate extends Component {
           this.props.form.resetFields()
         } else {
           message.error('添加失败')
-
         }
       }
     });
@@ -87,18 +108,34 @@ class AddUpdate extends Component {
     let options = categorys.map(c => ({
       value: c._id,
       label: c.name,
-      isLeaf: false,
+      isLeaf: false
     }))
 
     this.setState({ options })
   }
+
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ uploadLoading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageUrl,
+          uploadLoading: false,
+        }),
+      );
+    }
+  };
 
   componentDidMount() {
     this.getCategorys('0')
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator, imageUrl } = this.props.form
 
     const title = (
       <span>
@@ -120,6 +157,12 @@ class AddUpdate extends Component {
       },
     };
 
+    const uploadButton = (
+      <div>
+        {this.state.uploadLoading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
 
     return (
       <Card title={title}>
@@ -169,7 +212,17 @@ class AddUpdate extends Component {
 
           <Item label='商品图片'>
             <div>
-              商品图片
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={this.handleChange}
+              >
+                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+              </Upload>
             </div>
           </Item>
           <Item label='商品详情'>

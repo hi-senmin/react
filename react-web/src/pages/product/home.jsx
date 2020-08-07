@@ -44,7 +44,6 @@ export class ProductHome extends Component {
       this.setState({
         loading: false,
         total: res.data.total,
-        loading: false,
         products: res.data.list
       })
     }
