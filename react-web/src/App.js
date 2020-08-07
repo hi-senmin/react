@@ -4,7 +4,6 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Login from './pages/login/Login'
 import Admin from './pages/admin/Admin'
-
 export class App extends Component {
   render() {
     return (

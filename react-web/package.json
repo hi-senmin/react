@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.6.0",
+    "@craco/craco": "^5.6.4",
     "@svgr/webpack": "4.3.2",
     "@typescript-eslint/eslint-plugin": "^2.2.0",
     "@typescript-eslint/parser": "^2.2.0",
     "antd": "^3.23.4",
     "axios": "^0.19.0",
-    "babel-eslint": "10.0.3",
     "babel-jest": "^24.9.0",
-    "babel-loader": "8.0.6",
+    "babel-loader": "8.1.0",
     "babel-plugin-import": "^1.12.2",
     "babel-plugin-named-asset-import": "^0.3.4",
     "babel-preset-react-app": "^9.0.2",
@@ -38,8 +38,9 @@
     "jest-environment-jsdom-fourteen": "0.1.0",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.0",
-    "less": "^3.10.3",
-    "less-loader": "^5.0.0",
+    "jsonp": "^0.2.1",
+    "less": "^3.12.2",
+    "less-loader": "^6.2.0",
     "mini-css-extract-plugin": "0.8.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
@@ -63,15 +64,15 @@
     "terser-webpack-plugin": "1.4.1",
     "ts-pnp": "1.1.4",
     "url-loader": "2.1.0",
-    "webpack": "4.41.0",
-    "webpack-dev-server": "3.2.1",
+    "webpack": "4.42.0",
+    "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "4.3.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -141,5 +142,9 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "craco-less": "^1.17.0",
+    "react-app-rewired": "^2.1.6"
   }
 }
