@@ -27,6 +27,7 @@ class Header extends Component {
   }
   getWeather = async () => {
     let res = await reqWeather('广州')
+    console.log(res)
     let { dayPictureUrl, weather } = res[0].weather_data[0]
     this.setState({ dayPictureUrl, weather })
   }
@@ -85,8 +86,8 @@ class Header extends Component {
           </div>
           <div className="bottom_right">
             <span>{this.state.currentTime}</span>
-            <img src={this.state.dayPictureUrl} alt="" width='30px' />
-            <span>晴</span>
+            <img src={this.state.dayPictureUrl}  width='30px' />
+            <span>{this.state.weather}</span>
           </div>
         </div>
       </div>
