@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './less/login.css'
+import './less/login.less'
 import { Form, Icon, Input, Button, message } from 'antd';
 import { Redirect } from 'react-router-dom'
 

@@ -105,3 +105,4 @@ dist
 
 .idea
 .vscode
+react-web/yarn.lock
