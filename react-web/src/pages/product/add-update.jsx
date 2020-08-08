@@ -69,6 +69,16 @@ class AddUpdate extends Component {
     }
   }
 
+  initOption = (categorys) => {
+    let options = categorys.map(c => ({
+      value: c._id,
+      label: c.name,
+      isLeaf: false
+    }))
+
+    this.setState({ options })
+  }
+
   getCategorys = async (parentId) => {
     let res = await reqCategroty(parentId)
     if (res.status === 0) {
@@ -83,11 +93,12 @@ class AddUpdate extends Component {
 
   loadData = async (selectedOptions) => {
 
-    const targetOption = selectedOptions[0];
+    const targetOption = selectedOptions[selectedOptions.length - 1];
     targetOption.loading = true;
 
     let subCategory = await this.getCategorys(targetOption.value)
     targetOption.loading = false;
+
     if (subCategory && subCategory.length > 0) {
       let childOptions = subCategory.map(c => ({
         value: c._id,
@@ -95,23 +106,13 @@ class AddUpdate extends Component {
         isLeaf: true,
       }))
       targetOption.children = childOptions
-
-      this.setState({
-        options: [...this.state.options],
-      });
     } else {
       targetOption.isLeaf = true
     }
-  }
 
-  initOption = (categorys) => {
-    let options = categorys.map(c => ({
-      value: c._id,
-      label: c.name,
-      isLeaf: false
-    }))
-
-    this.setState({ options })
+    this.setState({
+      options: [...this.state.options],
+    });
   }
 
   handleChange = info => {

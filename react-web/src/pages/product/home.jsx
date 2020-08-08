@@ -146,7 +146,7 @@ export class ProductHome extends Component {
           rowKey='_id'
           bordered
           loading={loading}
-        />;
+        />
       </Card>
     )
   }
