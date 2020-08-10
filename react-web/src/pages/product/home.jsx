@@ -8,7 +8,7 @@ const { Search } = Input;
 export class ProductHome extends Component {
   state = {
     pageNum: 1,
-    pageSize: 3,
+    pageSize: 10,
     total: 0,
     loading: true,
     products: [],

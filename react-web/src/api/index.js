@@ -29,7 +29,7 @@ export const reqUpdateCategory = (categoryId, categoryName) => ajax('/manage/cat
 
 export const reqProducts = (pageNum, pageSize, productName, productDesc) => ajax('/manage/product/list', { pageNum, pageSize, productName, productDesc }, 'GET')
 
-export const reqAddProducts = (categoryId, pCategoryId = '0', name, desc, price, detail, imgs) => ajax('/manage/product/add',
+export const reqAddProducts = ({ categoryId, pCategoryId = '0', name, desc, price, imgs, detail }) => ajax('/manage/product/add',
   { categoryId, pCategoryId, name, desc, price, detail, imgs }, 'POST')
 
 
