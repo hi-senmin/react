@@ -3,6 +3,7 @@ import { Card, Form, Input, Button, Cascader, Icon, message } from 'antd'
 
 import LinkButton from '../../components/link-button'
 import PicturesWall from './PicturesWall'
+import RichTextEditor from './RichTextEditor'
 
 import { reqCategroty, reqAddProducts } from '../../api/index'
 
@@ -15,6 +16,7 @@ class AddUpdate extends Component {
   constructor(props) {
     super(props)
     this.pw = React.createRef()
+    this.editor = React.createRef()
   }
 
   state = {
@@ -37,13 +39,16 @@ class AddUpdate extends Component {
         }
 
         const imgs = this.pw.current.getImgs()
+        const detail = this.editor.current.getDetail()
 
-        let product = { categoryId, pCategoryId, name, desc, price, imgs }
+        let product = { categoryId, pCategoryId, name, desc, price, imgs, detail }
         console.log(product)
+
         let res = await reqAddProducts(product)
         if (res.status === 0) {
           message.success('添加成功')
           this.props.form.resetFields()
+          this.props.history.goBack()
         } else {
           message.error('添加失败')
         }
@@ -142,7 +147,7 @@ class AddUpdate extends Component {
 
     return (
       <Card title={title}>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <Form {...formItemLayout} onSubmit={this.handleSubmit} labelAlign="left">
           <Item label='商品名称'>
             {
               getFieldDecorator('name', {
@@ -186,16 +191,14 @@ class AddUpdate extends Component {
             }
           </Item>
 
-          <Item label='商品图片' wrapperCol={{ sm: { span: 15 } }} >
+          <Item label='商品图片' wrapperCol={{ sm: { span: 16 } }} >
             <PicturesWall ref={this.pw}></PicturesWall>
           </Item>
-          <Item label='商品详情'>
-            <div>
-              商品详情
-            </div>
+          <Item label='商品详情' wrapperCol={{ sm: { span: 16 } }}>
+            <RichTextEditor ref={this.editor}></RichTextEditor>
           </Item>
 
-          <Item >
+          <Item>
             <Button type='primary' htmlType='submit'>提交</Button>
           </Item>
         </Form>

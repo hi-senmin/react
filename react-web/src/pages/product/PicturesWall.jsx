@@ -1,10 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Upload, Icon, Modal, message } from 'antd'
-import { reqDeleteImg } from '../../api'
 
 
-
+// import PropTypes from 'prop-types'
+// import { reqDeleteImg } from '../../api'
 
 
 export default class PicturesWall extends React.Component {
