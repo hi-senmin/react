@@ -23,15 +23,18 @@ export const reqWeather = (city) => {
 
 export const reqCategroty = (parentId) => ajax('/manage/category/list', { parentId })
 
+export const reqCategory = (categoryId) => ajax('/manage/category/info', { categoryId })
+
 export const reqAddCategory = (parentId, categoryName) => ajax('/manage/category/add', { parentId, categoryName }, 'POST')
 
 export const reqUpdateCategory = (categoryId, categoryName) => ajax('/manage/category/update', { categoryId, categoryName }, 'POST')
 
 export const reqProducts = (pageNum, pageSize, productName, productDesc) => ajax('/manage/product/list', { pageNum, pageSize, productName, productDesc }, 'GET')
 
-export const reqAddProducts = ({ categoryId, pCategoryId = '0', name, desc, price, imgs, detail }) => ajax('/manage/product/add',
-  { categoryId, pCategoryId, name, desc, price, detail, imgs }, 'POST')
-
+export const reqAddProducts = ({ categoryId, pCategoryId = '0', name, desc, price, imgs, detail, _id }) => ajax(`/manage/product/${_id ? 'update' : 'add'}`,
+  { categoryId, pCategoryId, name, desc, price, detail, imgs, _id }, 'POST')
 
 
 export const reqSearchPro = (pageNum, pageSize, productName, productDesc) => ajax('/manage/product/search', { pageNum, pageSize, productName, productDesc }, 'GET')
+
+

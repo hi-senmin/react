@@ -124,8 +124,8 @@ export class ProductHome extends Component {
         render: (product) => {
           return (
             <span>
-              <LinkButton>详情</LinkButton>
-              <LinkButton>修改</LinkButton>
+              <LinkButton onClick={() => { this.props.history.push('/product/detail', { product }) }}>详情</LinkButton>
+              <LinkButton onClick={() => { this.props.history.push('/product/addupdate', { product }) }}>修改</LinkButton>
             </span>
           )
         }

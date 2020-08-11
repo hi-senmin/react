@@ -23,6 +23,8 @@ class AddUpdate extends Component {
     options,
   };
 
+
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
@@ -41,16 +43,20 @@ class AddUpdate extends Component {
         const imgs = this.pw.current.getImgs()
         const detail = this.editor.current.getDetail()
 
+
         let product = { categoryId, pCategoryId, name, desc, price, imgs, detail }
+        if (this.isUpdate) {
+          product._id = this.product._id
+        }
         console.log(product)
 
         let res = await reqAddProducts(product)
         if (res.status === 0) {
-          message.success('添加成功')
+          message.success(`${this.isUpdate ? '修改成功' : '添加成功'}`)
           this.props.form.resetFields()
           this.props.history.goBack()
         } else {
-          message.error('添加失败')
+          message.error(`${this.isUpdate ? '修改失败' : '添加失败'}`)
         }
       }
     });
@@ -118,19 +124,28 @@ class AddUpdate extends Component {
     });
   }
 
+  componentWillMount() {
+    const product = this.props.location.state ? this.props.location.state.product : null
+    this.isUpdate = !!product
+    this.product = product || {}
+    this.setState({ product })
+  }
+
   componentDidMount() {
     this.getCategorys('0')
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
+    const { isUpdate, product } = this
+    const { pCategoryId, categoryId } = product
 
     const title = (
       <span>
         <LinkButton onClick={() => { this.props.history.goBack() }}>
           <Icon type="arrow-left" />
         </LinkButton>
-        <span>添加商品</span>
+        <span>{isUpdate ? '修改商品' : '添加商品'}</span>
       </span>
     )
 
@@ -145,12 +160,23 @@ class AddUpdate extends Component {
       },
     };
 
+    const categoryIds = []
+    if (isUpdate) {
+      if (pCategoryId === '0') {
+        categoryIds.push(categoryId)
+      } else {
+        // 商品是一个二级分类的商品
+        categoryIds.push(pCategoryId)
+        categoryIds.push(categoryId)
+      }
+    }
     return (
       <Card title={title}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit} labelAlign="left">
           <Item label='商品名称'>
             {
               getFieldDecorator('name', {
+                initialValue: product.name,
                 rules: [{ required: true, message: 'Please input your note!' }],
               })(
                 <Input placeholder='请输入商品名称' autoComplete='off' />
@@ -161,6 +187,7 @@ class AddUpdate extends Component {
           <Item label='商品描述'>
             {
               getFieldDecorator('desc', {
+                initialValue: product.desc,
                 rules: [{ required: true, message: 'Please input your note!' }],
               })(
                 <TextArea placeholder='请输入商品描述' autoSize={{ minRows: 2, maxRows: 6 }} />
@@ -171,6 +198,7 @@ class AddUpdate extends Component {
           <Item label='商品价格'>
             {
               getFieldDecorator('price', {
+                initialValue: product.price,
                 rules: [{ required: true, message: 'Please input your note!' }, { validator: this.validatorPrice }],
               })(
                 <Input prefix="￥" suffix="元" autoComplete='off' />
@@ -181,6 +209,7 @@ class AddUpdate extends Component {
           <Item label='商品分类' >
             {
               getFieldDecorator('categoryIds', {
+                initialValue: categoryIds,
                 rules: [{ required: true, message: 'Please input your note!' }],
               })(
                 <Cascader
@@ -192,10 +221,10 @@ class AddUpdate extends Component {
           </Item>
 
           <Item label='商品图片' wrapperCol={{ sm: { span: 16 } }} >
-            <PicturesWall ref={this.pw}></PicturesWall>
+            <PicturesWall ref={this.pw} imgs={product.imgs}></PicturesWall>
           </Item>
           <Item label='商品详情' wrapperCol={{ sm: { span: 16 } }}>
-            <RichTextEditor ref={this.editor}></RichTextEditor>
+            <RichTextEditor ref={this.editor} detail={product.detail}></RichTextEditor>
           </Item>
 
           <Item>

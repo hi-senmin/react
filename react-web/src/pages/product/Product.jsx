@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import AddUpdate from './add-update'
 import Home from './home'
-import Detail from './detail'
+import Detail from './productDetail'
 
 
 export class Product extends Component {
