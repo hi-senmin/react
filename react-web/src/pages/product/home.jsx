@@ -8,7 +8,7 @@ const { Search } = Input;
 export class ProductHome extends Component {
   state = {
     pageNum: 1,
-    pageSize: 3,
+    pageSize: 10,
     total: 0,
     loading: true,
     products: [],
@@ -44,7 +44,6 @@ export class ProductHome extends Component {
       this.setState({
         loading: false,
         total: res.data.total,
-        loading: false,
         products: res.data.list
       })
     }
@@ -125,8 +124,8 @@ export class ProductHome extends Component {
         render: (product) => {
           return (
             <span>
-              <LinkButton>详情</LinkButton>
-              <LinkButton>修改</LinkButton>
+              <LinkButton onClick={() => { this.props.history.push('/product/detail', { product }) }}>详情</LinkButton>
+              <LinkButton onClick={() => { this.props.history.push('/product/addupdate', { product }) }}>修改</LinkButton>
             </span>
           )
         }
@@ -147,7 +146,7 @@ export class ProductHome extends Component {
           rowKey='_id'
           bordered
           loading={loading}
-        />;
+        />
       </Card>
     )
   }

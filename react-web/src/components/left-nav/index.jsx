@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import './index.css'
+import './index.less'
 import logo from '../../assets/img/logo.jpg'
 import menuList from '../../config/menuConfig'
 
@@ -10,34 +10,6 @@ import { Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
 export class leftNav extends Component {
 
-  // getMenuNodes = (menuList) => {
-  //   return menuList.map((item) => {
-  //     if (!item.children) {
-  //       return (
-  //         <Menu.Item key={item.key}>
-  //           <Link to={item.key}>
-  //             <Icon type={item.icon} />
-  //             <span>{item.title}</span>
-  //           </Link>
-  //         </Menu.Item>
-  //       )
-  //     } else {
-  //       return (
-  //         <SubMenu
-  //           key={item.key}
-  //           title={
-  //             <span>
-  //               <Icon type={item.icon} />
-  //               <span>{item.title}</span>
-  //             </span>
-  //           }
-  //         >
-  //           {this.getMenuNodes(item.children)}
-  //         </SubMenu>
-  //       )
-  //     }
-  //   })
-  // }
   getMenuNodes = (menuList) => {
     const path = this.props.location.pathname
 
@@ -52,7 +24,8 @@ export class leftNav extends Component {
           </Menu.Item>
         ))
       } else {
-        const citem = item.children.find((citem) => citem.key === path)
+        const citem = item.children.find((citem) => path.indexOf(citem.key) === 0)
+        // console.log(item.children)
         if (citem) {
           this.openKey = item.key
         }
