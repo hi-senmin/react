@@ -10,11 +10,24 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 
 export default class RichTextEditor extends Component {
+
   constructor(props) {
     super(props)
-    this.state = {
-      editorState: EditorState.createEmpty(), // 创建一个没有内容的编辑对象
+
+    const html = this.props.detail
+    if (html) {
+      const contentBlock = htmlToDraft(html)
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks)
+      const editorState = EditorState.createWithContent(contentState)
+      this.state = {
+        editorState, // 创建一个没有内容的编辑对象
+      }
+    } else {
+      this.state = {
+        editorState: EditorState.createEmpty(), // 创建一个没有内容的编辑对象
+      }
     }
+
   }
 
   /*
