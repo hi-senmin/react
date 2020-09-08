@@ -6,7 +6,6 @@ import {
   Modal,
   message,
   Divider,
-  Form
 } from 'antd'
 import { formateDate } from '../../utils/dateTime'
 import UserForm from './UserForm'
