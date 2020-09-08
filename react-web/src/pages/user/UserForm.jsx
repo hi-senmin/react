@@ -16,6 +16,10 @@ class UserForm extends PureComponent {
     user: PropTypes.object
   }
 
+  componentWillMount() {
+    this.props.setForm(this.props.form)
+  }
+
   render() {
     const formItemLayout = {
       labelCol: { span: 4 },  // 左侧label的宽度
@@ -31,6 +35,7 @@ class UserForm extends PureComponent {
             {
               getFieldDecorator('username', {
                 initialValue: user.username,
+                rules: [{ required: true }]
               })(
                 <Input placeholder='请输入用户名' />
               )
@@ -41,6 +46,7 @@ class UserForm extends PureComponent {
             {
               getFieldDecorator('phone', {
                 initialValue: user.phone,
+                rules: [{ required: true }]
               })(
                 <Input placeholder='请输入手机号' />
               )

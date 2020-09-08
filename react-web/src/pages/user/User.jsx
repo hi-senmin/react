@@ -10,6 +10,8 @@ import {
 import { formateDate } from '../../utils/dateTime'
 import UserForm from './UserForm'
 
+import { reqUsers, reqUpdateUser, reqAddUser, reqDeleteUser } from '../../api/index'
+
 export class User extends Component {
   constructor(props) {
     super(props)
@@ -35,10 +37,15 @@ export class User extends Component {
     this.initColumns()
   }
 
+  componentDidMount() {
+    this.reqUsers()
+  }
+
+
   showUpdate = (user) => {
-    this.user = user
     this.setState({
-      isShow: true
+      isShow: true,
+      user
     })
   }
 
@@ -71,21 +78,68 @@ export class User extends Component {
           <span >
             <b onClick={() => this.showUpdate(user)} className="ant-dropdown-link">修改</b>
             <Divider type="vertical" />
-            <b className="ant-dropdown-link">删除</b>
+            <b onClick={() => this.deleteUser(user)} className="ant-dropdown-link">删除</b>
           </span>
         )
       },
     ]
   }
 
+  reqUsers = async () => {
+    const result = await reqUsers()
+    if (result.status === 0) {
+      const { users, roles } = result.data
+
+      this.setState({
+        users,
+        roles
+      })
+    }
+  }
+
+  addOrUpdateUser = async () => {
+    const { user } = this.state
+    this.form.validateFields(async (err, val) => {
+      if (!err) {
+        const userData = this.form.getFieldsValue()
+        userData._id = user._id
+        console.log('userData', userData)
+
+        const res = userData._id ? await reqUpdateUser(userData) : await reqAddUser(userData)
+
+        if (res.status === 0) {
+          message.success(user._id ? '修改成功' : '新增成功')
+
+          await this.reqUsers()
+          this.form.resetFields()
+          this.setState({ isShow: false })
+        } else {
+          message.error(res.msg || '操作失败')
+        }
+
+      } else {
+        message.error(user._id ? '修改失败' : '新增失败')
+      }
+    })
+  }
+
+  deleteUser = (user) => {
+    Modal.confirm({
+      title: `确认删除${user.username}吗?`,
+      onOk: async () => {
+        const res = await reqDeleteUser(user._id)
+        if (res.status === 0) {
+          this.reqUsers()
+          message.success('删除成功')
+        } else {
+          message.error(res.msg)
+        }
+      }
+    })
+  }
+
   render() {
-    const { users, isShow } = this.state
-
-    const user = this.user || {}
-
-    const roles = this.roles || [
-      {_id:1, name: '测试一下'}
-    ]
+    const { users, isShow, roles = [], user = {} } = this.state
 
     const title = (<Button type='primary' onClick={() => this.showUpdate({})}>创建用户</Button>);
 
@@ -103,8 +157,10 @@ export class User extends Component {
           <Modal
             title={user._id ? '修改用户' : '新增用户'}
             visible={isShow}
+            onOk={this.addOrUpdateUser}
             onCancel={() => {
               this.setState({ isShow: false })
+              this.form.resetFields()
             }}
           >
             <UserForm

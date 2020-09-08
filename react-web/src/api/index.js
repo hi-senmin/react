@@ -2,10 +2,6 @@ import ajax from './ajax'
 import jsonp from 'jsonp'
 import { message } from 'antd'
 
-export const reqLogin = (userName, password) => ajax('/login', { username: userName, password: password }, 'POST')
-
-export const reqAddUser = (user) => ajax('/manage/user/add', user, 'POST')
-
 export const reqWeather = (city) => {
   return new Promise((resolve, reject) => {
     const url = `//api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`
@@ -21,6 +17,29 @@ export const reqWeather = (city) => {
   })
 }
 
+// 用户----------------------------------------
+export const reqLogin = (userName, password) => ajax('/login', { username: userName, password: password }, 'POST')
+
+export const reqAddUser = (user) => ajax('/manage/user/add', user, 'POST')
+
+export const reqUsers = () => ajax('/manage/user/list', {}, 'GET')
+
+export const reqUpdateUser = (user) => ajax('/manage/user/update', user, 'POST')
+
+export const reqDeleteUser = (userId) => ajax('/manage/user/delete', { userId }, 'POST')
+
+// 用户-END---------------------------------------
+
+
+
+// 角色 -----------------------------------------------
+export const reqRoles = () => ajax('/manage/role/list', {}, 'GET')
+
+export const reqAddRole = (roleName) => ajax('/manage/role/add', { roleName }, 'POST')
+
+
+
+// 分类 商品 -------------------------------------------------
 export const reqCategroty = (parentId) => ajax('/manage/category/list', { parentId })
 
 export const reqCategory = (categoryId) => ajax('/manage/category/info', { categoryId })
