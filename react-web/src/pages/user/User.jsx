@@ -29,7 +29,8 @@ export class User extends Component {
           "create_time": 1555061581734,
           "__v": 0
         },
-      ]
+      ],
+      rolesNames: {}
     }
   }
 
@@ -71,6 +72,7 @@ export class User extends Component {
       {
         title: '所属角色',
         dataIndex: 'role_id',
+        render: (role_id) => this.state.rolesNames[role_id]
       },
       {
         title: '操作',
@@ -85,14 +87,22 @@ export class User extends Component {
     ]
   }
 
+  rolesName = (rolesName) => {
+    return rolesName.reduce((pre, item) => {
+      pre[item._id] = item.name
+      return pre
+    }, {})
+  }
+
   reqUsers = async () => {
     const result = await reqUsers()
     if (result.status === 0) {
       const { users, roles } = result.data
-
+      const rolesNames = this.rolesName(roles)
       this.setState({
         users,
-        roles
+        roles,
+        rolesNames
       })
     }
   }

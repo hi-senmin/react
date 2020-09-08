@@ -53,7 +53,6 @@ export const reqProducts = (pageNum, pageSize, productName, productDesc) => ajax
 export const reqAddProducts = ({ categoryId, pCategoryId = '0', name, desc, price, imgs, detail, _id }) => ajax(`/manage/product/${_id ? 'update' : 'add'}`,
   { categoryId, pCategoryId, name, desc, price, detail, imgs, _id }, 'POST')
 
-
 export const reqSearchPro = (pageNum, pageSize, productName, productDesc) => ajax('/manage/product/search', { pageNum, pageSize, productName, productDesc }, 'GET')
 
-
+export const reqUpdateProduct = (productId, status) => ajax('/manage/product/updateStatus', { productId, status }, 'POST')
