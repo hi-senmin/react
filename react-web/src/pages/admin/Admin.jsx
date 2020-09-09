@@ -18,6 +18,16 @@ import Pie from '../charts/Pie'
 
 const { Footer, Sider, Content } = Layout;
 export class Admin extends Component {
+  state = {
+    collapsed: false,
+  }
+
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
   render() {
     const user = memoryUtil.user
     if (!user || !user._id) {
@@ -25,7 +35,7 @@ export class Admin extends Component {
     }
     return (
       <Layout style={{ height: '100%' }}>
-        <Sider>
+        <Sider collapsible={true}>
           <LeftNav />
         </Sider>
         <Layout>

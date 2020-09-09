@@ -3,7 +3,7 @@ import { message } from 'antd'
 
 export default function ajxa(url, data = {}, type = "GET") {
   // console.log('url:', url, '----type', type, '-----data:', data)
-  return new Promise((resovle, reject) => {
+  return new Promise((resolve, reject) => {
     let promise
     if (type === "GET") {
       promise = axios.get(url, {
@@ -16,7 +16,7 @@ export default function ajxa(url, data = {}, type = "GET") {
       if (res.status !== 200) {
         throw new Error('自定义的错误啊~~~')
       }
-      resovle(res.data)
+      resolve(res.data)
     }).catch(err => {
       message.error('请求失败~~~~~' + err)
     })

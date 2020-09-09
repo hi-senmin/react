@@ -64,7 +64,7 @@ router.post('/manage/user/add', (req, res) => {
         })
       } else { // 没值(不存在)
         // 保存
-        return UserModel.create({ ...req.body, password: md5(password || 'atguigu') })
+        return UserModel.create({ ...req.body, password: md5(password || '123456') })
       }
     })
     .then(user => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button, Table, Modal, message, Icon } from 'antd'
+import { Card, Button, Table, Modal, message, Icon, Divider } from 'antd'
 import LinkButton from '../../components/link-button'
 import { reqCategroty, reqUpdateCategory, reqAddCategory } from '../../api/index'
 import AddForm from './Add_form'
@@ -22,13 +22,15 @@ export class Categroy extends Component {
       },
       {
         title: '操作',
-        width: 200,
+        width: 250,
         render: (categroy) => {
           return (
             <span>
               <LinkButton onClick={() => this.showModal(2, categroy)}>修改分类</LinkButton>
               {
-                this.state.parentId === "0" ? <LinkButton onClick={() => this.showSubCategorys(categroy)}>查看二级分类</LinkButton> : null
+                this.state.parentId === "0" ?
+                  <span><Divider type="vertical" /><LinkButton onClick={() => this.showSubCategorys(categroy)}>查看二级分类</LinkButton></span>
+                  : null
               }
             </span>
           )

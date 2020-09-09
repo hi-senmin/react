@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import { Card, Input, Select, Button, Table } from 'antd'
+import { Card, Input, Select, Button, Table, Divider, message } from 'antd'
 import LinkButton from '../../components/link-button'
-import { reqProducts, reqSearchPro } from '../../api/index'
+import { reqProducts, reqSearchPro, reqUpdateProduct } from '../../api/index'
 const Option = Select.Option
 const { Search } = Input;
 export class ProductHome extends Component {
@@ -14,6 +14,12 @@ export class ProductHome extends Component {
     products: [],
     selectId: '1',
   }
+
+  componentDidMount() {
+    const { pageNum, pageSize } = this.state
+    this.getProducts(pageNum, pageSize)
+  }
+
   getProducts = async (pageNum, pageSize) => {
     this.setState({ loading: true })
     let res = await reqProducts(pageNum, pageSize)
@@ -56,10 +62,20 @@ export class ProductHome extends Component {
     })
   }
 
-  componentDidMount() {
+  changeProStatus = async (_id, status) => {
+    status = status === 1 ? 0 : 1
+    const res = await reqUpdateProduct(_id, status)
+    
     const { pageNum, pageSize } = this.state
     this.getProducts(pageNum, pageSize)
+    if (res.status === 0) {
+      message.success("操作成功")
+    } else {
+      message.success(res.msg)
+    }
+
   }
+
   render() {
     const title = (
       <span>
@@ -97,34 +113,32 @@ export class ProductHome extends Component {
         }
       },
       {
-        width: 100,
+        width: 160,
         title: '状态',
-        dataIndex: 'status',
-        render: (status) => {
-          if (status === 1) {
-            return (
-              <span>
-                <Button type="danger">下架</Button>
-                <span>在售</span>
-              </span>
-            )
-          } else {
-            return (
-              <span>
-                <Button type="primary">上架</Button>
-                <span>已下架</span>
-              </span>
-            )
-          }
+        render: (product) => {
+          const { _id, status } = product
+          return (
+            <span>
+              {/* {status === 1 ? (<Button type="danger">下架</Button>) : (<Button type="primary">上架</Button>)} */}
+              <Button
+                type={status === 1 ? 'danger' : 'primary'}
+                onClick={() => this.changeProStatus(_id, status)}>
+                {status === 1 ? '下架' : '上架'}
+              </Button>
+              <Divider type="vertical" />
+              <span>{status === 1 ? '在售' : '已下架'}</span>
+            </span>
+          )
         }
       },
       {
-        width: 80,
+        width: 130,
         title: '操作',
         render: (product) => {
           return (
             <span>
               <LinkButton onClick={() => { this.props.history.push('/product/detail', { product }) }}>详情</LinkButton>
+              <Divider type="vertical" />
               <LinkButton onClick={() => { this.props.history.push('/product/addupdate', { product }) }}>修改</LinkButton>
             </span>
           )
