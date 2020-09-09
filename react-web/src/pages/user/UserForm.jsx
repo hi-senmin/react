@@ -68,7 +68,7 @@ class UserForm extends PureComponent {
               getFieldDecorator('role_id', {
                 initialValue: user.role_id,
               })(
-                <Select>
+                <Select  placeholder="请选择">
                   {
                     roles.map(role => <Option key={role._id} value={role._id}>{role.name}</Option>)
                   }

@@ -37,6 +37,8 @@ export const reqRoles = () => ajax('/manage/role/list', {}, 'GET')
 
 export const reqAddRole = (roleName) => ajax('/manage/role/add', { roleName }, 'POST')
 
+export const reqUpdateRole = (role) => ajax('/manage/role/update', role , 'POST')
+
 
 
 // 分类 商品 -------------------------------------------------

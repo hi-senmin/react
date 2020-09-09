@@ -9,37 +9,33 @@ import {
 } from 'antd'
 import { formateDate } from '../../utils/dateTime'
 
+import { reqRoles, reqAddRole, reqUpdateRole } from '../../api/index'
+
 import AddForm from './AddForm'
 import AuthForm from './AuthForm'
 export class Role extends Component {
 
   constructor(props) {
     super(props)
+
     this.state = {
-      roles: [{
-        '_id': "5ca9eaa1b49ef916541160d3",
-        'auth_name': "test007",
-        'auth_time': 1558679920395,
-        'create_time': 1554639521749,
-        'menus': [],
-        'name': "测试",
-      }, {
-        '_id': "5ca9eaa1b49ef916541160d6",
-        'auth_name': "test001",
-        'auth_time': 1558679920391,
-        'create_time': 1554639521742,
-        'menus': [],
-        'name': "测试2",
-      }],
+      roles: [],
       role: {}, // 
       isShowAdd: false, // 
       isShowAuth: false
     }
+
+    this.auth = React.createRef()
+
   }
 
   componentWillMount() {
     this.initColumns()
   }
+  componentDidMount() {
+    this.getRoles()
+  }
+
 
   initColumns = () => {
     this.columns = [{
@@ -75,29 +71,46 @@ export class Role extends Component {
     this.form.validateFields(async (error, values) => {
       if (!error) {
         const { roleName } = values
+        const res = await reqAddRole(roleName)
+        if (res.status === 0) {
+          message.success('添加成功')
+          this.getRoles()
 
-        let role = {
-          _id: Date.now(),
-          auth_name: "test002",
-          auth_time: Date.now(),
-          create_time: Date.now(),
-          menus: [],
-          name: values.roleName,
+          this.setState({ isShowAdd: false })
+          this.form.resetFields()
+        } else {
+          message.error('添加失败')
         }
-        this.setState(state => ({
-          roles: [...state.roles, role]
-        }))
-
-        this.setState({ isShowAdd: false })
-        this.form.resetFields()
       } else {
         message.error('添加失败')
       }
     })
   }
 
-  authRole = () => {
+  updateRole = async () => {
+    let role = this.state.role
 
+    const menus = this.auth.current.getMenus()
+    role.menus = menus
+    role.auth_name = this.props.username
+
+    const res = await reqUpdateRole(role)
+    if (res.status === 0) {
+      message.success('操作成功')
+      this.setState({ isShowAuth: false })
+      this.getRoles()
+    } else {
+      message.error(res.msg)
+    }
+  }
+
+  getRoles = async () => {
+    const res = await reqRoles()
+    if (res.status === 0) {
+      this.setState({
+        roles: res.data
+      })
+    }
   }
 
   render() {
@@ -112,7 +125,6 @@ export class Role extends Component {
       >设置用户权限</Button>
     </div>
     )
-    console.log(isShowAdd)
 
     return (
       <div style={{ 'height': '100%' }}>
@@ -146,12 +158,12 @@ export class Role extends Component {
           <Modal
             title='设置角色权限'
             visible={isShowAuth}
-            onOk={this.authRole}
+            onOk={this.updateRole}
             onCancel={() => {
               this.setState({ isShowAuth: false })
             }}
           >
-            <AuthForm role={role} setForm={form => (this.form = form)}></AuthForm>
+            <AuthForm ref={this.auth} role={role} ></AuthForm>
           </Modal>
 
         </Card>

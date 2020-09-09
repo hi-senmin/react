@@ -18,15 +18,22 @@ class AuthForm extends Component {
   constructor(props) {
     super(props)
 
-    // 根据传入角色的menus生成初始状态
-    // const { menus } = this.props.role
-    // this.state = {
-    //   checkedKeys: menus
-    // }
+    const { menus } = this.props.role
+    this.state = {
+      checkedKeys: menus
+    }
   }
 
   componentWillMount() {
+    // 所有的树形结构
     this.treeNodes = this.getTreeNodes(menuList)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const menus = nextProps.role.menus
+    this.setState({
+      checkedKeys: menus
+    })
   }
 
   getTreeNodes = (menuList) => {
@@ -40,14 +47,24 @@ class AuthForm extends Component {
     }, [])
   }
 
+  // 父组件获取
+  getMenus = () => this.state.checkedKeys
+
+  onCheck = (checkedKeys) => {
+    console.log('onCheck', checkedKeys);
+    this.setState({ checkedKeys });
+  }
+
   render() {
     const { role } = this.props
+    const { checkedKeys } = this.state
+
 
     const formItemLayout = {
       labelCol: { span: 4 },  // 左侧label的宽度
       wrapperCol: { span: 15 }, // 右侧包裹的宽度
     }
-    const { getFieldDecorator } = this.props.form
+
     return (
       <div>
         <Item label='角色名称' {...formItemLayout}>
@@ -57,7 +74,8 @@ class AuthForm extends Component {
         <Tree
           checkable
           defaultExpandAll={true}
-          
+          checkedKeys={checkedKeys}
+          onCheck={this.onCheck}
         >
           <TreeNode title="平台权限" key="all">
             {this.treeNodes}
@@ -68,4 +86,4 @@ class AuthForm extends Component {
     )
   }
 }
-export default Form.create()(AuthForm)
+export default AuthForm
