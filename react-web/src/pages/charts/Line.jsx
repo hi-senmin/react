@@ -10,19 +10,19 @@ export class Line extends Component {
     this.state = {
       lineData: [{
         name: '邮件营销',
-        data: [120, 132, 101, 534, 90, 230, 210]
+        data: [120, 132, 356, 534, 90, 230, 210]
       }, {
         name: '联盟广告',
-        data: [220, 182, 391, 334, 290, 730, 310]
+        data: [220, 346, 864, 532, 290, 730, 310]
       }, {
         name: '视频广告',
-        data: [350, 532, 101, 554, 190, 830, 610]
+        data: [350, 532, 101, 554, 745, 830, 610]
       }, {
         name: '直接访问',
-        data: [520, 332, 201, 334, 390, 930, 320]
+        data: [520, 632, 201, 842, 390, 930, 320]
       }, {
         name: '搜索引擎',
-        data: [820, 232, 401, 934, 1290, 1330, 1320]
+        data: [820, 953, 634, 934, 1290, 1330, 1320]
       }]
     }
   }
@@ -89,7 +89,7 @@ export class Line extends Component {
           <Button type='primary' onClick={this.update}>更新</Button>
         </Card>
 
-        <Card title='折线图堆叠' >
+        <Card title='折线图堆叠'>
           <ReactEcharts option={this.getOption(lineData)}></ReactEcharts>
         </Card>
       </div>

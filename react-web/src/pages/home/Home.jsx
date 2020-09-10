@@ -6,7 +6,8 @@ import {
   Card,
   Statistic,
   DatePicker,
-  Timeline
+  Timeline,
+  Spin
 } from 'antd'
 
 import moment from 'moment'
@@ -22,7 +23,9 @@ const dateFormat = 'YYYY/MM/DD'
 
 export class Home extends Component {
   state = {
-    isVisited: true
+    isVisited: true,
+    refreshBar: 0,
+    onlineRefresh: false
   }
 
   handleChange = (isShow) => {
@@ -33,7 +36,11 @@ export class Home extends Component {
 
   refresh = () => {
     console.log('refresh')
+    this.setState({
+      refreshBar: this.state.refreshBar + 1
+    })
   }
+
   render() {
     const { isVisited } = this.state
     return (
@@ -67,7 +74,6 @@ export class Home extends Component {
           <Line />
         </div>
 
-
         <Card
           className="home-content"
           title={<div className="home-menu">
@@ -83,13 +89,13 @@ export class Home extends Component {
           <Card
             className="home-table-left"
             title={isVisited ? '访问趋势' : '销售趋势'}
-            bodyStyle={{ padding: 0, height: 275 }}
+            bodyStyle={{ padding: 0 }}
             extra={<Icon type="reload" onClick={() => this.refresh()} />}
           >
-            <Bar />
+            <Bar refresh={this.state.refreshBar} />
           </Card>
-          
-          <Card title='任务' extra={<Icon type="reload" />} className="home-table-right">
+
+          <Card title='任务' className="home-table-right">
             <Timeline>
               <Timeline.Item color="green">新版本迭代会</Timeline.Item>
               <Timeline.Item color="green">完成网站设计初版</Timeline.Item>

@@ -13,76 +13,76 @@ export default class Line extends Component {
   render() {
     const data = [
       {
-        month: "Jan",
+        month: "1",
         a: 7.0,
         b: 3.9,
         c: 5.9
       },
       {
-        month: "Feb",
+        month: "2",
         a: 6.9,
         b: 4.2,
         c: 1.9
       },
       {
-        month: "Mar",
+        month: "3",
         a: 9.5,
         b: 5.7,
         c: 3.9
       },
       {
-        month: "Apr",
+        month: "4",
         a: 14.5,
         b: 8.5,
         c: 5.5
       },
       {
-        month: "May",
+        month: "5",
         a: 18.4,
         b: 11.9,
         c: 8.9
       },
       {
-        month: "Jun",
+        month: "6",
         a: 21.5,
         b: 15.2,
         c: 10.0
       },
       {
-        month: "Jul",
+        month: "7",
         a: 25.2,
         b: 17.0,
         c: 12.9
       },
       {
-        month: "Aug",
+        month: "8",
         a: 26.5,
         b: 16.6,
         c: 15.9
       },
       {
-        month: "Sep",
+        month: "9",
         a: 23.3,
         b: 14.2,
         c: 20.7
       },
       {
-        month: "Oct",
+        month: "10",
         a: 18.3,
         b: 10.3,
         c: 25.9
       },
       {
-        month: "Nov",
+        month: "11",
         a: 13.9,
         b: 6.6,
-        c: 30.9
+        c: 26
       },
       {
-        month: "Dec",
+        month: "12",
         a: 9.6,
         b: 4.8,
-        c: 35.9
+        c: 30
       }
     ]
 
@@ -103,7 +103,7 @@ export default class Line extends Component {
     }
 
     return (
-      <div style={{ float: 'right', width: 750, height: 300 }}>
+      <div style={{  width: 750, }}>
         <Chart height={250} data={dv} scale={cols} forceFit>
           <Legend />
           <Axis name="month" />
