@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import './admin.less'
 import { Layout } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
+
 import Header from '../../components/header'
 import LeftNav from '../../components/left-nav'
 import memoryUtil from "../../utils/memoryUtil";
@@ -35,12 +41,19 @@ export class Admin extends Component {
     }
     return (
       <Layout style={{ height: '100%' }}>
-        <Sider collapsible={true}>
+        <Sider collapsible={true} trigger={null} collapsed={this.state.collapsed}>
           <LeftNav />
+          <div className='toggle_change' onClick={() => this.toggle()}>
+            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+            })}
+          </div>
         </Sider>
         <Layout>
-          <Header>Header</Header>
-          <Content style={{ backgroundColor: '#fff', margin: '20px 20px 0', overflowY: 'scroll' }}>
+          <Header>
+
+          </Header>
+          <Content style={{ backgroundColor: '#fff', margin: '20px 20px 0', overflowY: 'scroll', overflowX: 'hidden' }}>
             <Switch>
               <Route path="/home" component={Home} />
               <Route path="/category" component={Category} />

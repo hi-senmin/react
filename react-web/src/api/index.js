@@ -9,6 +9,7 @@ export const reqWeather = (city) => {
       if (!err && data.status === "success") {
         // let { dayPictureUrl, weather } = data.results[0].weather_data[0]
         // resolve(dayPictureUrl, weather)
+        console.log('reqWeather:::', data);
         resolve(data.results)
       } else {
         message.error('请求失败~~~~~' + err)
@@ -37,7 +38,7 @@ export const reqRoles = () => ajax('/manage/role/list', {}, 'GET')
 
 export const reqAddRole = (roleName) => ajax('/manage/role/add', { roleName }, 'POST')
 
-export const reqUpdateRole = (role) => ajax('/manage/role/update', role , 'POST')
+export const reqUpdateRole = (role) => ajax('/manage/role/update', role, 'POST')
 
 
 

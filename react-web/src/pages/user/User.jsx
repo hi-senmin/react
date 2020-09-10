@@ -18,18 +18,7 @@ export class User extends Component {
     this.state = {
       user: {},
       isShow: false,
-      users: [
-        {
-          "_id": "5cb05b4db6ed8c44f42c9af2",
-          "username": "test",
-          "password": "202cb962ac59075b964b07152d234b70",
-          "phone": "123412342134",
-          "email": "sd",
-          "role_id": "5ca9eaa1b49ef916541160d3",
-          "create_time": 1555061581734,
-          "__v": 0
-        },
-      ],
+      users: [],
       rolesNames: {}
     }
   }
@@ -41,7 +30,6 @@ export class User extends Component {
   componentDidMount() {
     this.reqUsers()
   }
-
 
   showUpdate = (user) => {
     this.setState({
