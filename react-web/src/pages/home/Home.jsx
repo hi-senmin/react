@@ -22,24 +22,28 @@ const dateFormat = 'YYYY/MM/DD'
 
 
 export class Home extends Component {
-  state = {
-    isVisited: true,
-    refreshBar: 0,
-    onlineRefresh: false
+  constructor(props) {
+    super(props)
+    this.state = {
+      isVisited: true,
+      refreshBar: 0,
+      onlineRefresh: false
+    }
+    this.barRef = React.createRef()
   }
 
   handleChange = (isShow) => {
     this.setState({
       isVisited: isShow
     })
+    this.barRef.current.getBarData(1)
   }
 
   refresh = () => {
     console.log('refresh')
-    this.setState({
-      refreshBar: this.state.refreshBar + 1
-    })
+    this.barRef.current.getBarData(2)
   }
+
 
   render() {
     const { isVisited } = this.state
@@ -92,7 +96,7 @@ export class Home extends Component {
             bodyStyle={{ padding: 0 }}
             extra={<Icon type="reload" onClick={() => this.refresh()} />}
           >
-            <Bar refresh={this.state.refreshBar} />
+            <Bar ref={this.barRef}/>
           </Card>
 
           <Card title='任务' className="home-table-right">

@@ -42,11 +42,10 @@ export default class Bar extends React.Component {
   componentDidMount() {
     this.getBarData()
   }
-  componentWillReceiveProps() {
-    this.getBarData()
-  }
 
-  getBarData = () => {
+
+  getBarData = (type = 0) => {
+    console.log('type', type)
     const { originalData } = this.state
     this.setState({
       loading: true,
