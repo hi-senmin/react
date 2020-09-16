@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import './admin.less'
-import { Layout } from 'antd';
+
+import { Layout, Switch as AntSwitch } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -12,6 +12,7 @@ import LeftNav from '../../components/left-nav'
 import memoryUtil from "../../utils/memoryUtil";
 import { Route, Switch } from 'react-router-dom'
 
+import './admin.less'
 
 import Home from '../home/Home'
 import Category from '../categroy/Categroy'
@@ -26,6 +27,7 @@ const { Footer, Sider, Content } = Layout;
 export class Admin extends Component {
   state = {
     collapsed: false,
+    theme: 'dark'
   }
 
   toggle = () => {
@@ -33,16 +35,28 @@ export class Admin extends Component {
       collapsed: !this.state.collapsed,
     });
   };
+  SwitchOnChange = (checked) => {
+    console.log(checked)
+    this.setState({
+      theme: !checked ? 'light' : 'dark'
+    })
+
+  }
 
   render() {
     const user = memoryUtil.user
     if (!user || !user._id) {
       return <Redirect to='/login'></Redirect>
     }
+    const { theme } = this.state
+
     return (
       <Layout style={{ height: '100%' }}>
-        <Sider collapsible={true} trigger={null} collapsed={this.state.collapsed}>
-          <LeftNav />
+        <Sider collapsible={true} trigger={null} collapsed={this.state.collapsed} theme={theme}>
+          <LeftNav theme={theme} />
+          <div className='themChange'>
+            <AntSwitch onChange={this.SwitchOnChange.bind()} checkedChildren="dark" unCheckedChildren="light" defaultChecked></AntSwitch>
+          </div>
           <div className='toggle_change' onClick={() => this.toggle()}>
             {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
               className: 'trigger',

@@ -7,7 +7,7 @@ import App from './App'
 import memoryUtil from './utils/memoryUtil'
 import storege from './utils/storege'
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 
 const user = storege.getUser()
 memoryUtil.user = user

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 import { Link, withRouter } from 'react-router-dom'
 import './index.less'
 import logo from '../../assets/img/logo.jpg'
@@ -9,7 +11,11 @@ import { Menu, Icon } from 'antd';
 
 const { SubMenu } = Menu;
 export class leftNav extends Component {
+  PropTypes = {
+    theme: PropTypes.string.isRequired
+  }
 
+ 
   getMenuNodes = (menuList) => {
     const path = this.props.location.pathname
 
@@ -66,7 +72,7 @@ export class leftNav extends Component {
           selectedKeys={[path]}
           defaultOpenKeys={[this.openKey]}
           mode="inline"
-          theme="dark"
+          theme={this.props.theme}
         >
           {
             this.menuNodes
